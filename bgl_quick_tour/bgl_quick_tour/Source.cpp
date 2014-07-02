@@ -12,11 +12,11 @@
 
 using namespace boost;
 
-typedef adjacency_list<> Graph;
+typedef adjacency_list<vecS, vecS, bidirectionalS> Graph;
 
 enum {A, B, C, D, E, N};
 const int num_vertice = N;
-const char* name = "ABCDE";
+const char* name = "ABCDEFG";
 
 typedef std::pair<int, int> Edge;
 
@@ -26,7 +26,10 @@ std::vector<Edge> edgev = {
 
 int main()
 {
-	Graph g(edgev.begin(), edgev.end(), N);
+	Graph g(N);
+
+	for (auto &i : edgev)
+		add_edge(i.first, i.second, g);
 
 	print_graph(g, name);
 
