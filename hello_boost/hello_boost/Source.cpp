@@ -28,5 +28,5 @@ int main(int argc, char *argv[], char *envp[])
 		cout << i << endl;
 
 	cout << "\n‚¨‚í‚è" << endl;
-
+	return 0;
 }
