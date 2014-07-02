@@ -19,16 +19,15 @@ int main(int argc, char *argv[], char *envp[])
 	cout << format("hello boost : version %1%.%2%.%3%\n")
 		% (BOOST_VERSION / 100000) % (BOOST_VERSION / 100 % 1000) % (BOOST_VERSION % 100) << endl;
 
-	cout << "コマンドライン引数" << endl;
-
+	cout << "Command Line Argument" << endl;
 
 	for (auto &i : args)
 		cout << i << endl;
 	
-	cout << "\n環境変数" << endl;
+	cout << "\nEenvironment Variable" << endl;
 	for (auto &i : envs)
 		cout << i << endl;
 
-	cout << "\nおわり" << endl;
+	cout << "\nEND" << endl;
 	return 0;
 }
