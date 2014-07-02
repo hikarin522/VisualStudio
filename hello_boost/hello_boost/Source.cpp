@@ -20,6 +20,8 @@ int main(int argc, char *argv[], char *envp[])
 		% (BOOST_VERSION / 100000) % (BOOST_VERSION / 100 % 1000) % (BOOST_VERSION % 100) << endl;
 
 	cout << "コマンドライン引数" << endl;
+
+
 	for (auto &i : args)
 		cout << i << endl;
 	
