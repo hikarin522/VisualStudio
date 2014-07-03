@@ -36,6 +36,7 @@ struct calc	: qi::grammar<Iterator, int(), ascii::space_type>
 	{
 		cout << "Oops!" << endl;
 	}
+
 };
 
 int main()
