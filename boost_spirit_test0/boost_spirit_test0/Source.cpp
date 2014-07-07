@@ -19,16 +19,17 @@ using namespace boost::spirit;
 //	 開始記号
 //	   expr
 //
+
 template<typename Iterator>
-struct calc	: qi::grammar<Iterator, int(), ascii::space_type>
+struct calc : qi::grammar<Iterator, double(), ascii::space_type>
 {
-	qi::rule<Iterator, int(), ascii::space_type> expr, term, fctr;
+	qi::rule<Iterator, double(), ascii::space_type> expr, term, fctr;
 
 	calc() : calc::base_type(expr)
 	{
-		expr = term[_val = _1] >> *(('+' >> term[_val += _1]) | ('-' >> term[_val -= _1]));
+		expr = term[_val = _1] >> *(('+' >> term[_val += _1]) | ('-' >> term[expr.val -= _1]));
 		term = fctr[_val = _1] >> *(('*' >> fctr[_val *= _1]) | ('/' >> fctr[_val /= _1]))[&Oops];
-		fctr = int_ | '(' >> expr >> ')';
+		fctr = double_ | '(' >> expr >> ')';
 	}
 
 	// 計算ついでに、* と / を見ると意味もなく Oops! と叫ぶコード
@@ -44,9 +45,10 @@ int main()
 	for (string str; getline(cin, str) && str.size() > 0;)
 	{
 		calc<string::iterator> c;
-		int result = -1;
+		double result = -1;
 
-		string::iterator it = str.begin();
+		auto it = str.begin();
+
 		if (qi::phrase_parse(it, str.end(), c, ascii::space, result))
 			cout << result << endl;
 	}
