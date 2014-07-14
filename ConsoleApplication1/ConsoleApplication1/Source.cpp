@@ -3,11 +3,25 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include <queue>
 #include <algorithm>
 
+#define BOOST_RESULT_OF_USE_DECLTYPE
+#define BOOST_SPIRIT_USE_PHOENIX_V3
+
 #include <boost/spirit/include/qi.hpp>
 #include <boost/spirit/include/phoenix.hpp>
+
+#include <boost/config/warning_disable.hpp>
+#include <boost/spirit/include/qi.hpp>
+#include <boost/spirit/include/phoenix_core.hpp>
+#include <boost/spirit/include/phoenix_operator.hpp>
+#include <boost/spirit/include/phoenix_fusion.hpp>
+#include <boost/spirit/include/phoenix_stl.hpp>
+#include <boost/fusion/include/adapt_struct.hpp>
+#include <boost/variant/recursive_variant.hpp>
+#include <boost/foreach.hpp>
 
 namespace phoenix = boost::phoenix;
 namespace spirit = boost::spirit;
@@ -16,15 +30,37 @@ namespace qi = boost::spirit::qi;
 template<typename Iterator>
 struct pars : qi::grammar<Iterator, int()>
 {
-	qi::rule<Iterator, int(), qi::locals<std::priority_queue<int>>> start;
+	typedef std::priority_queue<int, std::vector<int>, std::greater<int>> que;
+	qi::rule<Iterator, int()> first;
+	qi::rule<Iterator, que()>  mid;
+	qi::rule<Iterator, int()> start;
+
 	pars() : pars::base_type(start)
 	{
-		using phoenix::push_back;
-		using phoenix::at_c;
 		using namespace qi::labels;
 
-		start = +('[' >> qi::int_[push_back(_val, _1)] >> ']')
-			| +('[' >> start[push_back(at_c<0>(_val), _1)] >> ']');
+		first = '[' >> qi::int_[_val = (_1 + 1) / 2] >> ']';
+
+		mid = +first[[](que &q, int &i) {q.push(i); }]
+								   | +('[' >> start[phoenix::bind(&set_que,
+								   spirit::_val,
+								   spirit::_1)]
+								   >> ']');
+			
+
+		start = mid[_val = (phoenix::bind(&que_front,
+			spirit::_1))
+		];
+	}
+
+	static void set_que(que &q, int &i)
+	{
+			q.push(i);
+	}
+
+	static int que_front(que &q)
+	{
+		return q.top();
 	}
 
 };
@@ -40,10 +76,11 @@ int main()
 
 		auto it = str.begin();
 		pars<decltype(it)> p;
-		constituency tree;
+		int tree;
 		qi::parse(it, str.end(), p, tree);
-		std::cout << boost::apply_visitor(calculator(), tree) << std::endl;
+		std::cout << tree << std::endl;
 	}
 
 	return 0;
 }
+
