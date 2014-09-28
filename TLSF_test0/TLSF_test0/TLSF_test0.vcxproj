@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AC943D48-77A2-42B0-85DF-0E487704039F}</ProjectGuid>
+    <ProjectGuid>{46C7E886-CA1E-4360-ABF5-F06C9171AA6D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Allocator_TLSF</RootNamespace>
+    <RootNamespace>TLSF_test0</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
