@@ -1,0 +1,10 @@
+﻿<Window x:Class="DataBindingSample.MainWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		Title="データバインディングサンプル" Height="157" Width="193" SizeToContent="Height">
+	<StackPanel>
+		<TextBox Text="{Binding Count}" FontSize="36" FontWeight="Bold" TextAlignment="Center" />
+		<Button Content="+" Command="{Binding IncCommand}" />
+		<Button Content="-" Command="{Binding DecCommand}" />
+	</StackPanel>
+</Window>
