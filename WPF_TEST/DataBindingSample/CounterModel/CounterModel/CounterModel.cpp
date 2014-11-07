@@ -30,10 +30,12 @@ namespace DataBindingSample
 	{
 		return canExecute_(parameter);
 	}
+
 	void DelegateCommand::Execute(Object^ parameter)
 	{
 		execute_(parameter);
 	}
+
 	bool DelegateCommand::alwaysTrue(Object^ arg)
 	{
 		return true;
